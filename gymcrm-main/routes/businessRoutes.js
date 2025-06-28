@@ -21,3 +21,10 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
+
+
+// PORT=5000
+// MONGO_URI=mongodb+srv://riteshkumarnitk21:dsfTdq9xIZWYbaah@gymcrm.7rxeak5.mongodb.net/gymcrm?retryWrites=true&w=majority
+// # MONGO_URI=mongodb+srv://riteshkumarnitk21:riteshkumarnitk21@gym.cfb4v.mongodb.net
+// # MONGO_URI=mongodb+srv://riteshkumarnitk21:My%40Secure%3Ariteshkumarnitk21@gym.cfb4v.mongodb.net/gymcrm?retryWrites=true&w=majority
+// # MONGO_URI=mongodb+srv://riteshkumarnitk21:riteshkumarnitk2105@gymcrm.7rxeak5.mongodb.net/?retryWrites=true&w=majority&appName=gymcrm
