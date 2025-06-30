@@ -8,15 +8,18 @@ connectDB();
 
 const app = express();
 
+// Load routes
+const businessRoutes = require("./routes/businessRoutes");
+const userRoutes = require("./routes/userRoutes"); // ✅ Required for /api/users
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/business", require("./routes/businessRoutes.js"));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-
-const businessRoutes = require("./routes/businessRoutes");
+// Route handlers
 app.use("/api/business", businessRoutes);
+app.use("/api/users", userRoutes); // ✅ NEW
+
+// Server start
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

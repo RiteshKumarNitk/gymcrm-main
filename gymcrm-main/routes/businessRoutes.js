@@ -10,7 +10,6 @@ router.post("/", validateBusiness, (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
-    
   }
   next();
 }, createBusiness);
@@ -21,7 +20,6 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
-
 
 // PORT=5000
 // MONGO_URI=mongodb+srv://riteshkumarnitk21:dsfTdq9xIZWYbaah@gymcrm.7rxeak5.mongodb.net/gymcrm?retryWrites=true&w=majority
