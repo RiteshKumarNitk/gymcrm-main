@@ -1,2 +1,11 @@
-    const MemberDashboard = () => <div className="p-4 text-xl">🙋‍♂️ Member Dashboard</div>;
-export default MemberDashboard;
+import React from 'react'
+
+const MemberDashboard = () => {
+  return (
+    <div>
+      🙋‍♂️ Member Dashboard
+    </div>
+  )
+}
+
+export default MemberDashboard

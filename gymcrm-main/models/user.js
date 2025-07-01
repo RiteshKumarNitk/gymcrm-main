@@ -1,17 +1,22 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  googleId: { type: String, required: true, unique: true },
-  name: String,
-  email: { type: String, required: true, unique: true },
-  photoUrl: String,
+  googleId: { type: String, unique: false },
+  uid: { type: String, unique: false }, // Firebase UID
+  phone: { type: String },
+  email: { type: String },
+  name: { type: String },
+  photoUrl: { type: String },
   role: {
     type: String,
     enum: ["superadmin", "gymadmin", "trainer", "member"],
-    default: "member"
+    default: "member",
   },
-  businessId: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-  createdAt: { type: Date, default: Date.now }
-});
+  businessId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Business",
+    required: false,
+  },
+}, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

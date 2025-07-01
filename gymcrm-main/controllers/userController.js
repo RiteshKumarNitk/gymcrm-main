@@ -1,57 +1,48 @@
 const User = require("../models/user");
 
-
 exports.registerOrUpdateUser = async (req, res) => {
-  const { googleId, email, name, photoUrl, role, businessId } = req.body;
+  const { googleId, email, uid, phone, name, role, businessId } = req.body;
 
-  if (!googleId || !email) {
-    return res.status(400).json({ error: "Missing googleId or email" });
+  if (!googleId && !email && !uid && !phone) {
+    return res.status(400).json({ error: "Missing user identifier" });
   }
 
-  let user = await User.findOne({ googleId });
+  try {
+    let user = await User.findOne({
+      $or: [
+        { googleId: googleId || null },
+        { email: email || null },
+        { uid: uid || null },
+        { phone: phone || null },
+      ],
+    });
 
-  if (user) {
-    // ✅ Just return user info
-    return res.status(200).json(user);
+    if (!user) {
+      user = new User({
+        googleId,
+        email,
+        uid,
+        phone,
+        name,
+        role: role || "member",
+        businessId,
+      });
+    } else {
+      // Optional update logic
+      user.name = name || user.name;
+      user.email = email || user.email;
+      user.phone = phone || user.phone;
+      user.role = role || user.role;
+      user.businessId = businessId || user.businessId;
+    }
+
+    await user.save();
+    res.json({ message: "User registered/updated", role: user.role });
+  } catch (error) {
+    console.error("User registration error:", error);
+    res.status(500).json({ error: "Server error" });
   }
-
-  // ✅ Register new user
-  user = new User({
-    googleId,
-    email,
-    name,
-    photoUrl,
-    role,
-    businessId,
-  });
-
-  await user.save();
-  return res.status(201).json(user);
 };
-// exports.registerOrUpdateUser = async (req, res) => {
-//   const { googleId, email, name, photoUrl, role, businessId } = req.body;
-
-//   try {
-//     let user = await User.findOne({ googleId });
-
-//     if (user) {
-//       user.name = name;
-//       user.email = email;
-//       user.photoUrl = photoUrl;
-//       user.role = role ?? user.role;
-//       user.businessId = businessId ?? user.businessId;
-//       await user.save();
-//       return res.status(200).json(user);
-//     }
-
-//     user = new User({ googleId, email, name, photoUrl, role, businessId });
-//     await user.save();
-//     res.status(201).json(user);
-//   } catch (err) {
-//     console.error("User registration error", err);
-//     res.status(500).json({ error: "Server error" });
-//   }
-// };
 
 exports.getAllUsers = async (req, res) => {
   try {

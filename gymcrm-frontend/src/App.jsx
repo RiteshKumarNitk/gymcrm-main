@@ -1,16 +1,18 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import App from "./App.jsx";
+import PhoneLogin from "./components/PhoneLogin.jsx";
 
-import './App.css'
+import "./index.css";
 
-function App() {
-
-  return (
-    <>
-    <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-      
-    </>
-  )
-}
-
-export default App
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/phone-login" element={<PhoneLogin />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+);
