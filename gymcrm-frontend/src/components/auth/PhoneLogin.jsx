@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "../firebase";
+import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import axios from "../../api/axios";
 
 export default function PhoneLogin() {
   const [phone, setPhone] = useState("");
