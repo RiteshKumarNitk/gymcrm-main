@@ -1,16 +1,20 @@
-const winston = require('winston');
-const { combine, timestamp, printf, colorize } = winston.format;
+// /config/logger.js
 
+const winston = require('winston');
+const { combine, timestamp, printf, colorize, errors } = winston.format;
+
+// Log message structure
 const logFormat = printf(({ level, message, timestamp, stack }) => {
   return `${timestamp} [${level}]: ${stack || message}`;
 });
 
+// Create logger
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
   format: combine(
     timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     colorize(),
-    winston.format.errors({ stack: true }),
+    errors({ stack: true }), // to show error stack trace
     logFormat
   ),
   transports: [
@@ -20,6 +24,9 @@ const logger = winston.createLogger({
   ],
   exceptionHandlers: [
     new winston.transports.File({ filename: 'logs/exceptions.log' })
+  ],
+  rejectionHandlers: [
+    new winston.transports.File({ filename: 'logs/rejections.log' })
   ]
 });
 
